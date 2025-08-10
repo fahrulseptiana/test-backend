@@ -497,20 +497,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.User": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
         "product.Product": {
             "type": "object",
             "properties": {
