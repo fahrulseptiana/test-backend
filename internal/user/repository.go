@@ -4,6 +4,7 @@ package user
 type Repository interface {
 	GetAll() []User
 	GetByID(id int) (User, bool)
+	GetByEmail(email string) (User, bool)
 	Create(user User) User
 	Update(id int, user User) (User, bool)
 	Delete(id int) bool
@@ -31,6 +32,15 @@ func (r *InMemoryRepository) GetAll() []User {
 func (r *InMemoryRepository) GetByID(id int) (User, bool) {
 	u, ok := r.data[id]
 	return u, ok
+}
+
+func (r *InMemoryRepository) GetByEmail(email string) (User, bool) {
+	for _, u := range r.data {
+		if u.Email == email {
+			return u, true
+		}
+	}
+	return User{}, false
 }
 
 func (r *InMemoryRepository) Create(user User) User {

@@ -1,5 +1,23 @@
 basePath: /
 definitions:
+  auth.Credentials:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  models.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   user.User:
     properties:
       email:
@@ -7,6 +25,8 @@ definitions:
       id:
         type: integer
       name:
+        type: string
+      password:
         type: string
     type: object
 host: localhost:8080
@@ -16,6 +36,58 @@ info:
   title: User API
   version: "1.0"
 paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: authenticate a user and return JWT
+      parameters:
+      - description: Credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/auth.Credentials'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: invalid credentials
+          schema:
+            type: string
+      summary: Login user
+      tags:
+      - auth
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: register a new user
+      parameters:
+      - description: Credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/auth.Credentials'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Register user
+      tags:
+      - auth
   /users:
     get:
       description: get users
@@ -28,6 +100,8 @@ paths:
             items:
               $ref: '#/definitions/user.User'
             type: array
+      security:
+      - BearerAuth: []
       summary: List users
       tags:
       - users
@@ -49,6 +123,8 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/user.User'
+      security:
+      - BearerAuth: []
       summary: Create user
       tags:
       - users
@@ -72,6 +148,8 @@ paths:
           description: not found
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Delete user
       tags:
       - users
@@ -94,6 +172,8 @@ paths:
           description: not found
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Get user by ID
       tags:
       - users
@@ -124,7 +204,14 @@ paths:
           description: not found
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Update user
       tags:
       - users
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
