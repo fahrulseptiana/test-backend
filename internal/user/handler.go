@@ -22,10 +22,15 @@ func NewHandler(s Service) *Handler {
 // @Description  get users
 // @Tags         users
 // @Produce      json
+// @Security     BearerAuth
 // @Success      200  {array}   User
 // @Router       /users [get]
 func (h *Handler) GetUsers(c *gin.Context) {
-	c.JSON(http.StatusOK, h.service.GetAll())
+	users := h.service.GetAll()
+	for i := range users {
+		users[i].Password = ""
+	}
+	c.JSON(http.StatusOK, users)
 }
 
 // GetUser godoc
@@ -33,6 +38,7 @@ func (h *Handler) GetUsers(c *gin.Context) {
 // @Description  get string by ID
 // @Tags         users
 // @Produce      json
+// @Security     BearerAuth
 // @Param        id   path      int  true  "User ID"
 // @Success      200  {object}  User
 // @Failure      404  {string}  string  "not found"
@@ -48,6 +54,7 @@ func (h *Handler) GetUser(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "not found"})
 		return
 	}
+	user.Password = ""
 	c.JSON(http.StatusOK, user)
 }
 
@@ -57,6 +64,7 @@ func (h *Handler) GetUser(c *gin.Context) {
 // @Tags         users
 // @Accept       json
 // @Produce      json
+// @Security     BearerAuth
 // @Param        user  body      User  true  "User"
 // @Success      201   {object}  User
 // @Router       /users [post]
@@ -67,6 +75,7 @@ func (h *Handler) CreateUser(c *gin.Context) {
 		return
 	}
 	created := h.service.Create(user)
+	created.Password = ""
 	c.JSON(http.StatusCreated, created)
 }
 
@@ -76,6 +85,7 @@ func (h *Handler) CreateUser(c *gin.Context) {
 // @Tags         users
 // @Accept       json
 // @Produce      json
+// @Security     BearerAuth
 // @Param        id    path      int       true  "User ID"
 // @Param        user  body      User true  "User"
 // @Success      200   {object}  User
@@ -97,6 +107,7 @@ func (h *Handler) UpdateUser(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "not found"})
 		return
 	}
+	updated.Password = ""
 	c.JSON(http.StatusOK, updated)
 }
 
@@ -105,6 +116,7 @@ func (h *Handler) UpdateUser(c *gin.Context) {
 // @Description  delete a user by ID
 // @Tags         users
 // @Produce      json
+// @Security     BearerAuth
 // @Param        id   path      int  true  "User ID"
 // @Success      204  {string}  string  ""
 // @Failure      404  {string}  string  "not found"
