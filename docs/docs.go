@@ -31,7 +31,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.User"
+                                "$ref": "#/definitions/user.User"
                             }
                         }
                     }
@@ -56,7 +56,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/user.User"
                         }
                     }
                 ],
@@ -64,7 +64,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/user.User"
                         }
                     }
                 }
@@ -93,7 +93,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/user.User"
                         }
                     },
                     "404": {
@@ -130,7 +130,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/user.User"
                         }
                     }
                 ],
@@ -138,7 +138,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/user.User"
                         }
                     },
                     "404": {
@@ -185,7 +185,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.User": {
+        "user.User": {
             "type": "object",
             "properties": {
                 "email": {

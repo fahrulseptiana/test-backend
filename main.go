@@ -8,9 +8,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 
 	_ "test-backend/docs"
-	"test-backend/internal/handler"
-	"test-backend/internal/repository"
-	"test-backend/internal/service"
+	"test-backend/internal/user"
 )
 
 // @title           User API
@@ -20,9 +18,9 @@ import (
 // @host      localhost:8080
 // @BasePath  /
 func main() {
-	repo := repository.NewInMemoryUserRepository()
-	service := service.NewUserService(repo)
-	handler := handler.NewUserHandler(service)
+	repo := user.NewInMemoryRepository()
+	service := user.NewService(repo)
+	handler := user.NewHandler(service)
 
 	r := gin.Default()
 
